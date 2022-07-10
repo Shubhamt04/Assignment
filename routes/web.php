@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\PersonController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,14 +16,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('person');
 });
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('persons',[PersonController::class, 'index'])->name('persons.index');
 
-Route::group(['prefix' => 'student', 'middleware' => ['auth']], function () { 
-    Route::get('search', [StudentController::class, 'show']);
-    Route::post('create', [StudentController::class,'store']);
-});
+Route::get('persons/create',[PersonController::class,'create'])->name('persons.create');
+
+Route::post('persons/store',[PersonController::class,'store'])->name('persons.store');
+
+Route::get('persons/edit/{id}',[PersonController::class, 'edit'])->name('persons.edit');
+
+Route::put('persons/{id}',[PersonController::class, 'update'])->name('persons.update');
+
+Route::delete('persons/{id}',[PersonController::class, 'destroy'])->name('persons.destroy');
+
+Route::get('persons/search',[PersonController::class, 'search'])->name('persons.search');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

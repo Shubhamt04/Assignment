@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudentPostRequest;
 use App\Models\Student;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -16,28 +19,20 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StudentPostRequest $request)
     {
-        
-        // $this->validate($request, [
-        //     'name' => 'required',
-        //     'phone_number' => 'required|numeric|min:6|max:12',
-        //     'email' => 'required',
-        //     'country' => 'required|string',
-        //     'country_code' => 'required',
-        // ]);
-        
-        $student = Student::create([
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'country' => $request->country,
-            'country_code' => $request->country_code,
-        ]);
-        
-        return response()->json([
-            'student' => $student
-        ]);
+        try{
+            $validated = $request->validated();
+            $student = Student::create($validated);
+            return response()->json([
+                'student' => $student,
+            ]);
+        } catch(Exception $e){
+            Log::channel('student')->error('There is some error occured while creating student', ['message' => $e->getMessage()]);
+            return response()->json([
+                'error' => $e
+            ]);
+        }
     }
 
     /**
@@ -48,19 +43,26 @@ class StudentController extends Controller
      */
     public function search(Request $request)
     {
-        $columnsToSearch = ['name', 'email', 'phone_number', 'country', 'country_code'];
+        try {
+            $columnsToSearch = ['name', 'email', 'phone_number', 'country', 'country_code'];
+            $searchQuery = '%' . $request->search_term . '%';
+            $students = Student::where('id', 'LIKE', $searchQuery);
 
-        $searchQuery = '%' . $request->search_term . '%';
+            foreach($columnsToSearch as $column) {
+                $students = $students->orWhere($column, 'LIKE', $searchQuery);
+            }
 
-        $students = Student::where('id', 'LIKE', $searchQuery);
+            $students = $students->get();
 
-        foreach($columnsToSearch as $column) {
-            $students = $students->orWhere($column, 'LIKE', $searchQuery);
+            return response()->json([
+                'search_data' => $students
+            ]);
+        } catch(Exception $e){
+            Log::channel('student')->error('There is some error occured while searching student', ['message' => $e->getMessage()]);
+            return response()->json([
+                'error' => $e
+            ]);
         }
-
-        $students = $students->get();
-        return response()->json([
-            'search_data' => $students
-        ]);
+        
     }
 }

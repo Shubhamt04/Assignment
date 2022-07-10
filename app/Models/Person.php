@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Sanctum\HasApiTokens;
 
-class Student extends Model
+class Person extends Model
 {
-    use HasApiTokens, HasFactory;
+    use HasFactory;
 
+    protected $table = 'people';
     protected $fillable = [
         'name',
         'email',
         'phone_number',
         'country',
-        'country_code',
+        'profile_image'
     ];
 }

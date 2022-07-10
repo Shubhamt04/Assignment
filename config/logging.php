@@ -113,6 +113,21 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'student' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/student.log'),
+        ],
+
+        'person' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/person.log'),
+        ],
+
+        'user' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/user.log'),
+        ]
     ],
 
 ];
