@@ -15,7 +15,7 @@ class PersonPostRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone_number' => 'required|numeric|regex:/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$|min:6',
+            'phone_number' => 'required|regex:/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/|min:6',
             'email' => 'required',
             'country' => 'required|string',
             'profile_image' => 'mimes:jpeg,jpg,png,gif|max:10000',

@@ -27,8 +27,8 @@ class StudentPostRequest extends FormRequest
             'name' => 'required',
             'phone_number' => 'required|numeric|digits_between:6,12',
             'email' => 'required|email|unique:students',
-            'country' => 'required|string',
-            'country_code' => 'required',
+            // 'country' => 'required|string',
+            'calling_code' => 'required|numeric',
         ];
     }
 }

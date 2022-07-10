@@ -3,18 +3,18 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12 mx-auto">
+        <div class="col-md-12">
             <a href="{{route('persons.index')}}"><h3 class="btn btn-secondary">Person's list</h3></a>
         </div>
     </div>
-    <div class="input-group mb-3 mt-3 mx-auto">
+    <div class="input-group mb-3 mt-3">
         <div class="input-group-append">
             <a class="btn btn-outline-primary" href="{{route('persons.create')}}">Add New Person</a>
         </div>
     </div>
     <hr>
     <form action="{{route('persons.search')}}" method="GET">
-        <div class="input-group mb-3 mt-3 w-25 mx-auto">
+        <div class="input-group mb-3 mt-3 w-25">
             <input type="text" class="form-control " name="search" placeholder="Search area" aria-label="Recipient's username" aria-describedby="button-addon2">
             <div class="input-group-append">
                 <button class="btn btn-outline-primary" type="submit" id="button-addon2">Search</button>

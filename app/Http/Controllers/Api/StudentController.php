@@ -23,7 +23,12 @@ class StudentController extends Controller
     {
         try{
             $validated = $request->validated();
+            // Make external api call to get the country details from calling code.
+            $response = Http::get('https://restcountries.com/v2/callingcode/'.$request->calling_code)->json();
+            $validated['country_code'] = $response[0]['callingCodes'][0];
+            $validated['country'] = $response[0]['name'];
             $student = Student::create($validated);
+            
             return response()->json([
                 'student' => $student,
             ]);
