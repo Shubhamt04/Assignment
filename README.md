@@ -1,6 +1,5 @@
 # Assignment 1:
-Create APIs :
-NOTE: UI not required will be tested on postman
+Create secure APIs and CRUD application:
 1. api to create student
 2. list all the students with global search parameter on all the column
 
